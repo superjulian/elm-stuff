@@ -1,0 +1,17 @@
+var _ohanhi$elm_game_base$Key$Unknown = {ctor: 'Unknown'};
+var _ohanhi$elm_game_base$Key$ArrowRight = {ctor: 'ArrowRight'};
+var _ohanhi$elm_game_base$Key$ArrowLeft = {ctor: 'ArrowLeft'};
+var _ohanhi$elm_game_base$Key$Space = {ctor: 'Space'};
+var _ohanhi$elm_game_base$Key$fromCode = function (keyCode) {
+	var _p0 = keyCode;
+	switch (_p0) {
+		case 32:
+			return _ohanhi$elm_game_base$Key$Space;
+		case 37:
+			return _ohanhi$elm_game_base$Key$ArrowLeft;
+		case 39:
+			return _ohanhi$elm_game_base$Key$ArrowRight;
+		default:
+			return _ohanhi$elm_game_base$Key$Unknown;
+	}
+};

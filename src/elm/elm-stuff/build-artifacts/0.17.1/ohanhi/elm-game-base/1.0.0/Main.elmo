@@ -1,0 +1,99 @@
+var _ohanhi$elm_game_base$Main$view = function (model) {
+	return _elm_lang$html$Html$text(
+		_elm_lang$core$Basics$toString(model));
+};
+var _ohanhi$elm_game_base$Main$incrementShotsFired = function (model) {
+	return _elm_lang$core$Native_Utils.update(
+		model,
+		{shotsFired: model.shotsFired + 1});
+};
+var _ohanhi$elm_game_base$Main$updateVelocity = F2(
+	function (newVelocity, model) {
+		return _elm_lang$core$Native_Utils.update(
+			model,
+			{velocity: newVelocity});
+	});
+var _ohanhi$elm_game_base$Main$keyDown = F2(
+	function (keyCode, model) {
+		var _p0 = _ohanhi$elm_game_base$Key$fromCode(keyCode);
+		switch (_p0.ctor) {
+			case 'Space':
+				return _ohanhi$elm_game_base$Main$incrementShotsFired(model);
+			case 'ArrowLeft':
+				return A2(_ohanhi$elm_game_base$Main$updateVelocity, -1.0, model);
+			case 'ArrowRight':
+				return A2(_ohanhi$elm_game_base$Main$updateVelocity, 1.0, model);
+			default:
+				return model;
+		}
+	});
+var _ohanhi$elm_game_base$Main$keyUp = F2(
+	function (keyCode, model) {
+		var _p1 = _ohanhi$elm_game_base$Key$fromCode(keyCode);
+		switch (_p1.ctor) {
+			case 'ArrowLeft':
+				return A2(_ohanhi$elm_game_base$Main$updateVelocity, 0, model);
+			case 'ArrowRight':
+				return A2(_ohanhi$elm_game_base$Main$updateVelocity, 0, model);
+			default:
+				return model;
+		}
+	});
+var _ohanhi$elm_game_base$Main$applyPhysics = F2(
+	function (dt, model) {
+		return _elm_lang$core$Native_Utils.update(
+			model,
+			{position: model.position + (model.velocity * dt)});
+	});
+var _ohanhi$elm_game_base$Main$update = F2(
+	function (msg, model) {
+		var _p2 = msg;
+		switch (_p2.ctor) {
+			case 'TimeUpdate':
+				return {
+					ctor: '_Tuple2',
+					_0: A2(_ohanhi$elm_game_base$Main$applyPhysics, _p2._0, model),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'KeyDown':
+				return {
+					ctor: '_Tuple2',
+					_0: A2(_ohanhi$elm_game_base$Main$keyDown, _p2._0, model),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				return {
+					ctor: '_Tuple2',
+					_0: A2(_ohanhi$elm_game_base$Main$keyUp, _p2._0, model),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+		}
+	});
+var _ohanhi$elm_game_base$Main$model = {position: 0, velocity: 0, shotsFired: 0};
+var _ohanhi$elm_game_base$Main$init = {ctor: '_Tuple2', _0: _ohanhi$elm_game_base$Main$model, _1: _elm_lang$core$Platform_Cmd$none};
+var _ohanhi$elm_game_base$Main$Model = F3(
+	function (a, b, c) {
+		return {position: a, velocity: b, shotsFired: c};
+	});
+var _ohanhi$elm_game_base$Main$KeyUp = function (a) {
+	return {ctor: 'KeyUp', _0: a};
+};
+var _ohanhi$elm_game_base$Main$KeyDown = function (a) {
+	return {ctor: 'KeyDown', _0: a};
+};
+var _ohanhi$elm_game_base$Main$TimeUpdate = function (a) {
+	return {ctor: 'TimeUpdate', _0: a};
+};
+var _ohanhi$elm_game_base$Main$subscriptions = function (model) {
+	return _elm_lang$core$Platform_Sub$batch(
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$animation_frame$AnimationFrame$diffs(_ohanhi$elm_game_base$Main$TimeUpdate),
+				_elm_lang$keyboard$Keyboard$downs(_ohanhi$elm_game_base$Main$KeyDown),
+				_elm_lang$keyboard$Keyboard$ups(_ohanhi$elm_game_base$Main$KeyUp)
+			]));
+};
+var _ohanhi$elm_game_base$Main$main = {
+	main: _elm_lang$html$Html_App$program(
+		{init: _ohanhi$elm_game_base$Main$init, view: _ohanhi$elm_game_base$Main$view, update: _ohanhi$elm_game_base$Main$update, subscriptions: _ohanhi$elm_game_base$Main$subscriptions})
+};
